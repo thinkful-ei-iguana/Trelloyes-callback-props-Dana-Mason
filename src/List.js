@@ -3,6 +3,7 @@ import Card from './Card'
 import './List.css';
 
 export default function List(props) {
+  console.log(props.cards);
   return (
     <section className='List'>
       <header className='List-header'>
@@ -11,9 +12,14 @@ export default function List(props) {
       <div className='List-cards'>
         {props.cards.map((card) =>
           <Card
-            key={card.id}
             title={card.title}
+            key={card.id}
+            cardId={card.id}
+            listId={props.listId}
+            
             content={card.content}
+            deleteCard={props.deleteCard}
+
           />
         )}
         <button

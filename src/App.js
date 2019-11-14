@@ -73,9 +73,25 @@ class App extends Component {
     const newAllCards = {...this.state.allCards, [cardId]:newCard};
     this.setState({allCards:newAllCards});
   }
-  
+
+  omit = (obj, keyToOmit) => {
+    return Object.entries(obj).reduce(
+      (newObj, [key, value]) =>
+          key === keyToOmit ? newObj : {...newObj, [key]: value},
+      {}
+    );
+  }
+  handleDeleteCard = (listId, cardId) => {
+    const newList = this.state.lists.map(list => list.id===listId? Object.assign({id: list.id, header: list.header, cardIds: list.cardIds.filter(card => card !== cardId)}): list);
+    console.log(newList);
+    // const newCards = this.omit({...this.state.allCards}, cardId);
+    // console.log(newCards);
+    this.setState({lists: newList});
+    
+  }
 
   render() {
+    console.log(this.state);
     const lists = this.state.lists
     return (
       <main className='App'>
@@ -90,6 +106,7 @@ class App extends Component {
               cards={list.cardIds.map(id => this.state.allCards[id])}
               listId={list.id}
               AddRandomCard={this.handleAddRandomCard}
+              deleteCard={this.handleDeleteCard}
             />
           ))}
         </div>
